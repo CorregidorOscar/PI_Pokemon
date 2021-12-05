@@ -66,7 +66,8 @@ class PokemonController {
 
   static async getByID(req, res, next) {
     const { id } = req.params;
-    if (id.length > 5)
+    console.log("id", typeof id);
+    if (id.length > 7)
       return DBController.getByID(id)
         .then((r) => res.send(r))
         .catch((error) => next(error));
@@ -76,13 +77,25 @@ class PokemonController {
   }
 
   static async add(req, res, next) {
-    const poke = req.body;
-    return DBController.add(poke)
-      .then((poke, created) => {
+    const pokemon = req.body;
+    return DBController.add(pokemon)
+      .then((poke) => {
         // console.log("db", poke);
+
+        pokemon.types.forEach((e) => {
+          poke[0].addType(e);
+        });
+        // return poke[0].addType(1);
         return res.send(poke[1]);
       })
 
+      .catch((error) => next(error));
+  }
+
+  static async delete(req, res, next) {
+    const { id } = req.params;
+    DBController.delete(id)
+      .then(() => res.send(true))
       .catch((error) => next(error));
   }
 }

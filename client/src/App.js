@@ -1,9 +1,10 @@
-import "./App.css";
+// import "./App.css";
+import { GlobalStyle } from "./common/styles/GlobalStyle.jsx";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.jsx";
-import Pokemons from "./pages/Pokemons.jsx";
-import CreatePokemon from "./pages/CreatePokemon.jsx";
-import PokemonDetails from "./pages/PokemonDetails.jsx";
+import Pokemons from "./pages/Pokemons";
+import CreatePokemon from "./pages/CreatePokemon";
+import PokemonDetails from "./pages/PokemonDetails";
 import Error from "./common/components/Error.jsx";
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
         <Route exact path="/pokemons/create" element={<CreatePokemon />} />
         {/* <Route path="*" element={<Error />} /> */}
       </Routes>
+      {/* <GlobalStyle /> */}
     </div>
   );
 }

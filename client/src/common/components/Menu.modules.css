@@ -1,0 +1,33 @@
+.infoContainer {
+  padding-left: 15px;
+  padding-bottom: 100px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.formgroup {
+  margin-bottom: 20px;
+  position: relative;
+  width: 500px;
+  margin: auto;
+}
+
+.mymenu {
+  width: 100%;
+  position: absolute;
+  bottom: 70px;
+  display: block;
+}
+
+.ttsuggestion {
+  border-radius: 3px;
+  background-color: rgb(255, 255, 255);
+  z-index: 1000;
+  border: 0.1px solid rgb(221, 221, 221);
+  box-shadow: rgba(0, 0, 0, 0.176) 1px 4px 12px;
+  display: block;
+  padding: 8px 15px;
+  cursor: pointer;
+}

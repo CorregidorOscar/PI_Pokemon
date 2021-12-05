@@ -8,6 +8,7 @@ import {
   CLEAR_SEARCH,
   SORT,
   GET_POKEMON_DETAIL,
+  POST_POKEMON,
 } from "./actions";
 
 const initialState = {
@@ -81,6 +82,11 @@ const rootReducer = (state = initialState, { type, payload }) => {
       return {
         ...state,
         pokemon: payload,
+      };
+    }
+    case POST_POKEMON: {
+      return {
+        ...state,
       };
     }
     default:

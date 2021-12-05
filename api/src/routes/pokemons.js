@@ -11,7 +11,7 @@ router.get("/:id", PokemonController.getByID);
 router.post("/", PokemonController.add);
 
 // router.put("/:id", PokemonController.update);
-// router.delete("/:id", PokemonController.delete);
+router.delete("/:id", PokemonController.delete);
 // const {
 //   getAllPokemons,
 //   getByID,

@@ -2,6 +2,25 @@
 import { useSelector } from "react-redux";
 // import { getAllPokemons } from "../redux/actions";
 import PokemonCard from "./PokemonCard";
+import styled from "styled-components";
+const ContainerCards = styled.div`
+  /* width: 80vw; */
+  height: 100%;
+  width: 100%;
+  display: grid;
+  /* background-color: var(--colors-secondary); */
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  column-gap: 1rem;
+  row-gap: 1rem;
+  padding: 1rem;
+  /* grid-template-columns: repeat(auto-fill, minmax(350px, 1fr)); */
+  /* grid-template-rows: repeat(auto-fill, minmax(200px, 1fr)); */
+
+  /* padding: 10px 80px 50px; */
+  /* grid-gap: 30px 30px; */
+  justify-content: center;
+`;
 export default function PokemonCards({ currentPokemons }) {
   // const pokemons = useSelector((store) => store.pokemonsCopy);
   const filter = useSelector((store) => store.filter);
@@ -21,7 +40,7 @@ export default function PokemonCards({ currentPokemons }) {
   // //si hay filtro
   // if (filter) return ret;
   return (
-    <div>
+    <ContainerCards>
       {currentPokemons.length ? (
         currentPokemons.map((e) => <PokemonCard key={e.id} {...e} />)
       ) : (
@@ -31,6 +50,6 @@ export default function PokemonCards({ currentPokemons }) {
         ></img>
       )}
       {/* <h1>PokemonCards</h1> */}
-    </div>
+    </ContainerCards>
   );
 }

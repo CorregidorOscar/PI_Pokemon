@@ -14,7 +14,7 @@ class APIController {
     //   return r.map((e) => createPokemon(e.data));
     // });
 
-    const arr1 = Array(24)
+    const arr1 = Array(36)
       .fill()
       .map((_, i) => axios.get(`${URL_POKEMON}/${i + 1}`));
     return Promise.all(arr1).then((res) => {

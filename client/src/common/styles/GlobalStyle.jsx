@@ -1,4 +1,8 @@
-@import url("./common/styles/fonts/flexo/stylesheet.css");
+import { createGlobalStyle } from "styled-components";
+
+export const GlobalStyle = createGlobalStyle`
+/* @import url("./fonts/flexo/stylesheet.css"); */
+
 :root {
   --colors-amaranthRed: #ce1131;
   --colors-snow: #fff3f0;
@@ -54,6 +58,7 @@ option,
 div {
   text-decoration: none;
   font-family: "Flexo";
+  font-weight: 600;
   /* color: rgb(var(--colors-text)); */
 }
 body {
@@ -70,3 +75,4 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+`;

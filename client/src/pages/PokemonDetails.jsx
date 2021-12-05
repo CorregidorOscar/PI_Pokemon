@@ -15,9 +15,12 @@ export default function PokemonDetails() {
   // }, []);
 
   console.log("details", pokemon, id);
-  const { name, attack, sprite, types, hp, defense, speed, weight, height } =
-    pokemon;
-
+  const { name, attack, sprite, hp, defense, speed, weight, height } = pokemon;
+  let { types } = pokemon;
+  // console.log("types", types[0]);
+  if (typeof types[0] === "object") {
+    types = types.map((e) => e.name);
+  }
   return (
     <div>
       <Link to="/pokemons">

@@ -11,6 +11,7 @@ export const CLEAR_FILTER = "CLEAR_FILTER";
 export const CLEAR_SEARCH = "CLEAR_SEARCH";
 export const FILTER = "FILTER";
 export const SORT = "SORT";
+export const POST_POKEMON = "POST_POKEMON";
 
 export const getAllPokemons = () => {
   return (dispatch) => {
@@ -87,16 +88,35 @@ export const sort = (compare, order, pokes) => {
   // console.log("compare", compare, pokes[0][compare]);
   switch (order) {
     case "asc": {
-      payload = pokes.sort((a, b) =>
-        a[compare].toString().localeCompare(b[compare].toString())
-      );
+      if (compare === "name") {
+        payload = pokes.sort((a, b) => a[compare].localeCompare(b[compare]));
+        break;
+      }
+      payload = pokes.sort((a, b) => {
+        if (a[compare] > b[compare]) {
+          return 1;
+        }
+        if (a[compare] < b[compare]) {
+          return -1;
+        }
+        return 0;
+      });
       break;
     }
     case "desc": {
-      payload = pokes.sort((a, b) =>
-        b[compare].toString().localeCompare(a[compare].toString())
-      );
-
+      if (compare === "name") {
+        payload = pokes.sort((a, b) => b[compare].localeCompare(a[compare]));
+        break;
+      }
+      payload = pokes.sort((a, b) => {
+        if (a[compare] < b[compare]) {
+          return 1;
+        }
+        if (a[compare] > b[compare]) {
+          return -1;
+        }
+        return 0;
+      });
       break;
     }
     default:
@@ -111,5 +131,10 @@ export const getPokemonDetail = (poke) => {
   return {
     type: GET_POKEMON_DETAIL,
     payload: poke,
+  };
+};
+export const postPokemon = (pokemon) => {
+  return (dispatch) => {
+    axios.post(`${API_URL}/pokemons`, pokemon).then((poke) => poke);
   };
 };
