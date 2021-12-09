@@ -18,10 +18,20 @@ class DBController {
       where: {
         name,
       },
+      include: {
+        model: Type,
+      },
     });
   }
   static async getByID(id) {
-    return Pokemon.findByPk(id);
+    return Pokemon.findOne({
+      where: {
+        id: id,
+      },
+      include: {
+        model: Type,
+      },
+    });
   }
   // static async add(poke) {
   //   return Pokemon.findOrCreate({

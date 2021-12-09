@@ -1,88 +1,6 @@
-import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { getPokemonDetail } from "../redux/actions";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 
-export default function PokemonCard(props) {
-  // console.log("sprite", sprite);
-  // console.log("card", props);
-  const dispatch = useDispatch();
-  function handleOnClick() {
-    dispatch(getPokemonDetail(props));
-  }
-
-  const { name, types, sprite, id } = props;
-  // let { types } = props;
-  // // console.log("types", types[0]);
-  // if (types && typeof types[0] === "object") {
-  //   types = types.map((e) => e.name);
-  // }
-
-  return (
-    <CardContainer>
-      <Link to={`/pokemons/${id} `} onClick={handleOnClick}>
-        {name ? (
-          <ImgDiv className={types[0].name} glass="0.8">
-            <Name>{`${name[0].toUpperCase()}${name.slice(1)}`}</Name>
-            {/* <h2>{attack}</h2> */}
-            <PokeImg src={sprite} alt="poke" />
-            <TypesDiv>
-              {types.map((e) => (
-                <img
-                  src={require(`../../assets/icons/${e.name}.svg`).default}
-                  alt={e.name}
-                />
-              ))}
-            </TypesDiv>
-          </ImgDiv>
-        ) : (
-          <h3>Not Found</h3>
-        )}
-      </Link>
-    </CardContainer>
-
-    // <div>
-    //   <h2>{name}</h2>
-    //   <img src={sprite} alt="poke" />
-    //   <h2>{types}</h2>
-    // </div>
-  );
-}
-const Name = styled.h2`
-  color: var(--colors-black);
-  font-size: 1.5rem;
-`;
-const TypesDiv = styled.div`
-  > img {
-    width: 32px;
-  }
-`;
-const CardContainer = styled.div`
-  width: 291px;
-  height: 100%;
-  transition: all 3s;
-  &:hover {
-    /* transform: scale(1.05); */
-    transform: translate(0, -5px);
-    transition: all 250ms;
-    /* animation-name: spin;
-    animation-duration: 2000ms;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear; */
-  }
-`;
-const ImgDiv = styled.div`
-  border-radius: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 0.5rem;
-  border: solid var(--colors-black) 1px;
-
+export const BackgroundColor = styled.div`
   &.normal {
     background: rgb(168, 167, 122);
     background: radial-gradient(
@@ -246,7 +164,113 @@ const ImgDiv = styled.div`
     );
   }
 `;
-const PokeImg = styled.img`
-  max-width: 100%;
-  height: 150px;
+// export default BackgroundColor;
+export const StyledButton = styled.button`
+  width: 5rem;
+  height: 2rem;
+  color: var(--colors-secondary);
+  background-color: var(--colors-black);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1rem;
+  border: solid black 2px;
+  transition: filter 250ms;
+  border-radius: 0.5rem;
+  transition: all 1s;
+  /* margin: 0.25rem; */
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.05);
+    /* transition: 0.2s ease-in; */
+  }
+  &:active {
+    transform: translateY(1px);
+    transition: transform 34ms;
+  }
+  &:focus:not(:focus-visible) {
+    outline: none;
+  }
+`;
+
+const back = keyframes`
+
+0%,100% {
+  background: rgb(168,167,122);
+  background: radial-gradient(circle, rgba(168,167,122,1) 0%, rgba(168,167,122,1) 35%, rgba(140,139,105,1) 100%);
+}
+5% {
+  background: rgb(238,129,48);
+  background: radial-gradient(circle, rgba(238,129,48,1) 0%, rgba(238,129,48,1) 35%, rgba(255,90,0,1) 100%);
+}
+10% {
+  background: rgb(99,144,240);
+  background: radial-gradient(circle, rgba(99,144,240,1) 0%, rgba(99,144,240,1) 35%, rgba(35,105,255,1) 100%);
+}
+15%{
+  background: rgb(247,208,44);
+  background: radial-gradient(circle, rgba(247,208,44,1) 0%, rgba(247,208,44,1) 35%, rgba(230,156,36,1) 100%);
+}
+20% {
+  background: rgb(122,199,76);
+  background: radial-gradient(circle, rgba(122,199,76,1) 0%, rgba(122,199,76,1) 35%, rgba(81,186,18,1) 100%);
+}
+25% {        
+  background: rgb(179,236,233);
+  background: radial-gradient(circle, rgba(179,236,233,1) 0%, rgba(150,217,214,1) 35%, rgba(86,219,213,1) 100%);
+}
+30% {
+  background: rgb(194,46,40);
+  background: radial-gradient(circle, rgba(194,46,40,1) 0%, rgba(194,46,40,1) 35%, rgba(187,24,17,1) 100%);
+}
+35% {
+  background: rgb(156,66,154);
+  background: radial-gradient(circle, rgba(156,66,154,1) 0%, rgba(163,62,161,1) 35%, rgba(160,26,143,1) 100%);
+}
+40% {
+  background: rgb(218,108,30);
+  background: radial-gradient(circle, rgba(218,108,30,1) 0%, rgba(218,112,36,1) 50%, rgba(177,94,33,1) 100%);
+}
+45%{
+  background: rgb(163,145,255);
+  background: radial-gradient(circle, rgba(163,145,255,1) 0%, rgba(134,128,255,1) 50%, rgba(117,110,254,1) 100%);
+}
+50% {
+  background: rgb(249,85,135);
+  background: radial-gradient(circle, rgba(249,85,135,1) 0%, rgba(249,85,135,1) 35%, rgba(228,58,110,1) 100%);
+}
+55% {
+  background: rgb(191,213,26);
+  background: radial-gradient(circle, rgba(191,213,26,1) 0%, rgba(166,185,26,1) 35%, rgba(98,185,26,1) 100%);
+}
+60%{
+  background: rgb(168,153,122);
+  background: radial-gradient(circle, rgba(168,153,122,1) 0%, rgba(168,153,122,1) 50%, rgba(147,123,70,1) 100%);
+}
+65% {
+  background: rgb(115,87,151);
+  background: radial-gradient(circle, rgba(115,87,151,1) 0%, rgba(115,87,151,1) 35%, rgba(107,41,142,1) 100%);
+}
+70%{
+  background: rgb(118,61,255);
+  background: radial-gradient(circle, rgba(118,61,255,1) 0%, rgba(111,53,252,1) 35%, rgba(74,0,255,1) 100%);
+}
+75% {
+  background: rgb(47,47,47);
+  background: radial-gradient(circle, rgba(47,47,47,1) 0%, rgba(24,24,24,1) 50%, rgba(0,0,0,1) 100%);
+ 
+}
+80% {
+  background: rgb(183,183,206);
+  background: radial-gradient(circle, rgba(183,183,206,1) 0%, rgba(183,183,206,1) 35%, rgba(103,103,103,1) 100%);
+} 
+90%{
+  background: rgb(214,133,173);
+  background: radial-gradient(circle, rgba(214,133,173,1) 0%, rgba(214,133,173,1) 35%, rgba(210,97,153,1) 100%);
+}
+`;
+export const BackgroundAnimated = styled.div`
+  animation: ${back} 60s infinite;
 `;

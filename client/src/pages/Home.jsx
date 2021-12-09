@@ -6,13 +6,65 @@ import styled from "styled-components";
 
 import { getTypes, getAllPokemons } from "../common/redux/actions";
 // import styles from "./Home.module.css";
+import Pikachu from "../assets/Pikachu.gif";
 import Bulbasaur from "../assets/Bulbasaur.gif";
 import Charmander from "../assets/Charmander.gif";
 import Squirtle from "../assets/Squirtle.gif";
 import pokeLogo from "..//assets/pokemon-23.svg";
 
-const bg =
-  "radial-gradient(circle,rgba(238, 129, 48, 1) 0%,rgba(238, 129, 48, 1) 35%,rgba(255, 90, 0, 1) 100%);";
+export default function Home() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getAllPokemons());
+    dispatch(getTypes());
+
+    // dispatch(getPokemonByID(2));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <HomeContainer>
+      <LinkLogo>
+        <NavLink to="/pokemons" className="navlink">
+          <PokeLogo src={pokeLogo} alt="pokeLogo" className="pokelogo" />
+          {/* <button>Pokemons</button> */}
+        </NavLink>
+      </LinkLogo>
+      <DivImg className={"electric"}>
+        <PokeImg
+          src={Pikachu}
+          alt="Pikachu"
+          // className={styles.homeContainer__img}
+        />
+      </DivImg>
+      <DivImg className={"grass"}>
+        <PokeImg
+          src={Bulbasaur}
+          alt="Bulbasaur"
+          // className={styles.homeContainer__img}
+        />
+      </DivImg>
+      {/* <h1>'Landing'</h1> */}
+
+      <DivImg className={"fire"}>
+        <PokeImg
+          src={Charmander}
+          alt="Charmander"
+          // className={styles.homeContainer__img}
+        />
+      </DivImg>
+      <DivImg className={"water"}>
+        <PokeImg
+          src={Squirtle}
+          alt="Squirtle"
+          // className={styles.homeContainer__img}
+        />
+      </DivImg>
+    </HomeContainer>
+  );
+}
+
 const HomeContainer = styled.div`
   height: 100vh;
   position: relative;
@@ -55,7 +107,12 @@ const DivImg = styled.div`
   align-items: center;
   &.fire {
     background: rgb(238, 129, 48);
-    background: ${(props) => props.bg};
+    background: radial-gradient(
+      circle,
+      rgba(238, 129, 48, 1) 0%,
+      rgba(238, 129, 48, 1) 35%,
+      rgba(255, 90, 0, 1) 100%
+    );
   }
   &.water {
     background: rgb(99, 144, 240);
@@ -75,50 +132,14 @@ const DivImg = styled.div`
       rgba(81, 186, 18, 1) 100%
     );
   }
+  &.electric {
+    background: rgb(247, 208, 44);
+    background: radial-gradient(
+      circle,
+      rgba(247, 208, 44, 1) 0%,
+      rgba(247, 208, 44, 1) 35%,
+      rgba(230, 156, 36, 1) 100%
+    );
+  }
   /* background-color: ${(props) => props.backgroundColor}; */
 `;
-export default function Home() {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(getAllPokemons());
-    dispatch(getTypes());
-
-    // dispatch(getPokemonByID(2));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return (
-    <HomeContainer>
-      <LinkLogo>
-        <NavLink to="/pokemons" className="navlink">
-          <PokeLogo src={pokeLogo} alt="pokeLogo" className="pokelogo" />
-          {/* <button>Pokemons</button> */}
-        </NavLink>
-      </LinkLogo>
-      <DivImg className={"grass"}>
-        <PokeImg
-          src={Bulbasaur}
-          alt="Bulbasaur"
-          // className={styles.homeContainer__img}
-        />
-      </DivImg>
-      {/* <h1>'Landing'</h1> */}
-
-      <DivImg bg={bg} className={"fire"}>
-        <PokeImg
-          src={Charmander}
-          alt="Charmander"
-          // className={styles.homeContainer__img}
-        />
-      </DivImg>
-      <DivImg className={"water"}>
-        <PokeImg
-          src={Squirtle}
-          alt="Squirtle"
-          // className={styles.homeContainer__img}
-        />
-      </DivImg>
-    </HomeContainer>
-  );
-}

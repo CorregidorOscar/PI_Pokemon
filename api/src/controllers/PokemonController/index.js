@@ -104,25 +104,16 @@ async function getByName(name) {
   return Promise.all([
     DBController.getByName(name),
     APIController.getByName(name),
-  ]).then((poke) => {
-    console.log("poke", poke);
-    if (typeof poke[1] === "object") return poke[1];
-    return poke[0];
-  });
+  ])
+    .then((poke) => {
+      console.log("poke", poke);
+      if (typeof poke[1] === "object") return poke[1];
+      return poke[0];
+    })
+    .catch((error) => next(error));
 }
 
 async function getAll() {
-  // const [db, api] = await Promise.all([
-  //   DBController.getAllPokemons(),
-  //   APIController.getAllPokemons(),
-  // ]);
-  // const poke = [...db, ...api];
-  // console.log("get", poke);
-  // return poke;
-  // const db = DBController.getAllPokemons();
-  // // console.log("pokecont", db);
-  // const api = APIController.getAllPokemons();
-  // // console.log("pokecont", api);
   return Promise.all([
     DBController.getAllPokemons(),
     APIController.getAllPokemons(),

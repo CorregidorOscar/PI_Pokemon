@@ -30,8 +30,15 @@ export const GlobalStyle = createGlobalStyle`
   --colors-dark: #705746;
   --colors-steel: #b7b7ce;
   --colors-fairy: #d685ad;
+--colors-shadow:#4d194d;
+--colors-unknown:#197278;
+
   --colors-primary: var(--colors-amaranthRed);
   --colors-secondary: var(--colors-snow);
+  --colors-black: var(--colors-eerieBlack);
+  --colors-gray: var(--colors-lightSlateGray);
+  --colors-redlight: var(--colors-oldRose);
+  --colors-reddark: var(--colors-redNCS);
 }
 * {
   margin: 0;

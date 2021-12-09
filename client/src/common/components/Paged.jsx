@@ -1,22 +1,6 @@
 import styled from "styled-components";
 
-const PagedContainer = styled.div`
-  /* height: 2.5rem; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  column-gap: 20px;
-`;
-const PagedButton = styled.div`
-  height: 2.5rem;
-  width: 2.5rem;
-  background-color: var(--colors-secondary);
-  border-radius: 50px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-export default function Paged({ amountPerPage, total, paged }) {
+export default function Paged({ amountPerPage, total, paged, currentPage }) {
   const pageNumbers = [];
   //   console.log("paged", total);
   for (let i = 1; i <= Math.ceil(total / amountPerPage); i++) {
@@ -29,7 +13,11 @@ export default function Paged({ amountPerPage, total, paged }) {
       <ul> */}
       {pageNumbers &&
         pageNumbers.map((num) => (
-          <PagedButton key={num} onClick={() => paged(num)}>
+          <PagedButton
+            key={num}
+            onClick={() => paged(num)}
+            className={currentPage === num ? "current" : "notCurrent"}
+          >
             {/* <a onClick={() => paged(num)}>{num}</a> */}
             {num}
           </PagedButton>
@@ -39,3 +27,31 @@ export default function Paged({ amountPerPage, total, paged }) {
     </PagedContainer>
   );
 }
+const PagedContainer = styled.div`
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  column-gap: 20px;
+  padding: 0.5rem 0;
+`;
+const PagedButton = styled.div`
+  height: 1.75rem;
+  width: 1.75rem;
+  background-color: var(--colors-secondary);
+  color: var(--colors-primary);
+  font-size: 1rem;
+  /* background-color: var(--colors-secondary); */
+  border-radius: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &.current {
+    background-color: var(--colors-primary);
+    color: var(--colors-secondary);
+  }
+  &:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+  }
+`;

@@ -1,79 +1,42 @@
 const axios = require("axios");
 const { URL_POKEMON } = require("../../utils/constants");
+const DBController = require("../TypeController/DBController");
 class APIController {
   static async getAllPokemons() {
-    // try {
-    // const arr = axios.get(`${URL_POKEMON}?offset=0&limit=40`).then((r) => {
-    //   const pokes = r.data.results;
-    //   console.log(pokes);
-    //   return pokes.map((e) => axios.get(e.url));
-    // });
-    // console.log("arr", arr);
-    // return Promise.all(arr).then((r) => {
-    //   console.log("arr", r);
-    //   return r.map((e) => createPokemon(e.data));
-    // });
-
+    // let types = await DBController.getAllTypes();
+    // types = types.map((e) => e.dataValues);
+    const types = await getTypes();
+    console.log("types", types);
     const arr1 = Array(36)
       .fill()
       .map((_, i) => axios.get(`${URL_POKEMON}/${i + 1}`));
     return Promise.all(arr1).then((res) => {
-      return res.map((e) => createPokemon(e.data));
+      return res.map((e) => createPokemon(e.data, types));
     });
-
-    // const arr = [];
-    // const arr1 = Array(15)
-    //   .fill()
-    //   .map((_, i) => axios.get(`${URL_POKEMON}/${i + 1}`));
-    // const arr2 = Array(15)
-    //   .fill()
-    //   .map((_, i) => axios.get(`${URL_POKEMON}/${i + 16}`));
-    // // const arr3 = Array(10)
-    // //   .fill()
-    // //   .map((_, i) => axios.get(`${URL_POKEMON}/${i + 31}`));
-    // // console.log("arr", arr, arr2, arr3);
-    // const pro1 = Promise.all(arr1).then((res) => {
-    //   return res.map((e) => createPokemon(e.data));
-    // });
-    // const pro2 = Promise.all(arr2).then((res) => {
-    //   return res.map((e) => createPokemon(e.data));
-    // });
-    // // const pro3 = Promise.all(arr3).then((res) => {
-    // //   return res.map((e) => createPokemon(e.data));
-    // // });
-    // return Promise.all([pro1, pro2]).then((res) => {
-    //   return [...res[0], ...res[1]];
-    // });
-
-    // console.log("pro", arr);
-    // return arr;
-    // .catch((err) => err);
-    // } catch (err) {
-    //   console.log("error in getAllAPiPokemons");
-    //   return [];
-    // }
   }
 
   static async getByName(name) {
+    const types = await getTypes();
     return (
       axios
         .get(`${URL_POKEMON}/${name}`)
         // .then((r) => r.data)
-        .then((e) => createPokemon(e.data))
+        .then((e) => createPokemon(e.data, types))
         .catch((e) => e.message)
     );
   }
 
   static async getByID(id) {
+    const types = await getTypes();
     return (
       axios
         .get(`${URL_POKEMON}/${id}`)
         // .then((r) => r.data)
-        .then((e) => createPokemon(e.data))
+        .then((e) => createPokemon(e.data, types))
     );
   }
 }
-function createPokemon(e) {
+function createPokemon(e, types) {
   // const sprite = axios
   //   .get(`https://www.professorlotus.com/Sprites/${e.name}.gif`)
   //   .then((r) => {
@@ -81,6 +44,12 @@ function createPokemon(e) {
   //     return r;
   //   });
   // console.log("sprite", sprite);
+  // let id = await DBController.getByName(e.type.name);
+  // id = id.dataValues.id;
+  // .then((r) => {
+  //   console.log("api", r.dataValues.id);
+  //   return r.dataValues.id;
+  // })
   return {
     id: e.id,
     name: e.name,
@@ -90,10 +59,21 @@ function createPokemon(e) {
     speed: e.stats[5].base_stat,
     height: e.height,
     weight: e.weight,
-    types: e.types.map((e) => e.type.name),
+    types: e.types.map(
+      // (e) => e.type.name
+      (e) => ({
+        name: e.type.name,
+        id: types.find((t) => t.name === e.type.name).id,
+      })
+    ),
     sprite: `https://www.professorlotus.com/Sprites/${e.name}.gif`,
     // sprite: e.sprites.other.home.front_default,
   };
+}
+function getTypes() {
+  // const types = await DBController.getAllTypes();
+  // return types.map((e) => e.dataValues);
+  return DBController.getAllTypes().then((t) => t.map((e) => e.dataValues));
 }
 // const APIController = new APIControllerClass();
 module.exports = APIController;

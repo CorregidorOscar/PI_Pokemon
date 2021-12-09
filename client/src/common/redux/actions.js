@@ -12,11 +12,11 @@ export const CLEAR_SEARCH = "CLEAR_SEARCH";
 export const FILTER = "FILTER";
 export const SORT = "SORT";
 export const POST_POKEMON = "POST_POKEMON";
+export const CLEAR_ALL = "CLEAR_ALL";
 
 export const getAllPokemons = () => {
   return (dispatch) => {
     axios.get(`${API_URL}/pokemons`).then((poke) => {
-      console.log("allpoke", poke);
       dispatch({
         type: GET_POKEMONS,
         payload: poke.data,
@@ -74,9 +74,11 @@ export const clearSearch = () => {
 export const filter = (filter, pokes) => {
   // const pokemonsCopy = useSelector((store) => store.pokemonsCopy);
   // console.log("pokes", pokes);
+  console.log("pokes", filter);
   if (filter === "all") return clearFilter();
-  let payload = pokes.filter((e) => e.types.includes(filter));
+  let payload = pokes.filter((e) => e.types.find((t) => t.name === filter));
   // if (!payload.length) payload = pokes;
+
   return {
     type: FILTER,
     payload,
@@ -136,5 +138,10 @@ export const getPokemonDetail = (poke) => {
 export const postPokemon = (pokemon) => {
   return (dispatch) => {
     axios.post(`${API_URL}/pokemons`, pokemon).then((poke) => poke);
+  };
+};
+export const clearAll = () => {
+  return {
+    type: CLEAR_ALL,
   };
 };
