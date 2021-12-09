@@ -1,14 +1,8 @@
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getPokemonByID } from "../common/redux/actions";
+import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import {
-  BackgroundAnimated,
-  BackgroundColor,
-  StyledButton,
-} from "../common/styles/Styles";
+import { BackgroundColor, StyledButton } from "../common/styles/Styles";
 export default function PokemonDetails() {
   const { id } = useParams();
   // id = parseInt(id);
@@ -19,8 +13,6 @@ export default function PokemonDetails() {
 
   //   //eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
-
-  console.log("details", pokemon, id);
   const { name, attack, sprite, hp, defense, speed, weight, height } = pokemon;
   let { types } = pokemon;
   // console.log("types", types[0]);
@@ -46,6 +38,7 @@ export default function PokemonDetails() {
               <div>
                 {types.map((e) => (
                   <Img
+                    key={e}
                     src={require(`../assets/icons/${e}.svg`).default}
                     alt={e}
                     back={e}

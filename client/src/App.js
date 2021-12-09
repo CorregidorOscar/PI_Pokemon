@@ -1,5 +1,4 @@
 // import "./App.css";
-import { GlobalStyle } from "./common/styles/GlobalStyle.jsx";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import Pokemons from "./pages/Pokemons";
@@ -12,7 +11,6 @@ import bg1 from "./assets/background/1.jpeg";
 import bg2 from "./assets/background/2.jpeg";
 import bg3 from "./assets/background/3.jpeg";
 import bg4 from "./assets/background/4.jpeg";
-import Background from "./common/components/Background.jsx";
 function App() {
   return (
     // <div className="App">
@@ -36,9 +34,11 @@ function App() {
 
 const fade = keyframes`
   0%, 10%{
-      background-image: url(${bg1})}
-      15%,35% {
-          background-image: url(${bg2})}
+    background-image: url(${bg1})
+  }
+  15%,35% {
+      background-image: url(${bg2})
+  }
   40%,60% {
     background-image: url(${bg3})
   }

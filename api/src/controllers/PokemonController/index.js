@@ -66,7 +66,6 @@ class PokemonController {
 
   static async getByID(req, res, next) {
     const { id } = req.params;
-    console.log("id", typeof id);
     if (id.length > 7)
       return DBController.getByID(id)
         .then((r) => res.send(r))
@@ -106,7 +105,6 @@ async function getByName(name) {
     APIController.getByName(name),
   ])
     .then((poke) => {
-      console.log("poke", poke);
       if (typeof poke[1] === "object") return poke[1];
       return poke[0];
     })
@@ -118,11 +116,8 @@ async function getAll() {
     DBController.getAllPokemons(),
     APIController.getAllPokemons(),
   ]).then((result) => {
-    // console.log("poke", result);
-
     const [dbInfo, apiInfo] = result;
     const resp = dbInfo.concat(apiInfo);
-    // console.log("poke", resp);
     return resp;
   });
 }

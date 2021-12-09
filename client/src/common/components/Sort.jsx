@@ -1,20 +1,24 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { sort } from "../redux/actions";
-import Button from "./Button";
+import { sort, saveSort, saveFilter } from "../redux/actions";
 export default function Sort() {
   const pokes = useSelector((store) => store.allPokemons);
+  const inputs = useSelector((store) => store.inputs);
 
   //   console.log("types", types);
 
   const dispatch = useDispatch();
 
   function handleClick(e) {
-    console.log("e", e.target.value);
     const value = e.target.value;
     // console.log("sort", pokes);
-    if (value === "disordered") dispatch(sort(null, value, [...pokes]));
+    dispatch(saveFilter(""));
+    if (value === "disordered") {
+      dispatch(saveSort(""));
+      dispatch(sort(null, value, [...pokes]));
+    }
     const input = value.split(" ");
+    dispatch(saveSort(value));
     dispatch(sort(input[0], input[1], [...pokes]));
   }
   return (
@@ -22,19 +26,45 @@ export default function Sort() {
       {/* <form onSubmit={handleSelect}> */}
       {/* <Button /> */}
       <SortLabel>Order</SortLabel>
-      <SortButton value="disordered" onClick={handleClick}>
+      <SortButton
+        value="disordered"
+        onClick={handleClick}
+        // className={
+        //   inputs.sort && inputs.sort === "disordered" ? "selected" : ""
+        // }
+      >
         Disordered
       </SortButton>
-      <SortButton value="name asc" onClick={handleClick}>
+      <SortButton
+        value="name asc"
+        onClick={handleClick}
+        className={inputs.sort && inputs.sort === "name asc" ? "selected" : ""}
+      >
         A---Z
       </SortButton>
-      <SortButton value="name desc" onClick={handleClick}>
+      <SortButton
+        value="name desc"
+        onClick={handleClick}
+        className={inputs.sort && inputs.sort === "name desc" ? "selected" : ""}
+      >
         Z---A
       </SortButton>
-      <SortButton value="attack asc" onClick={handleClick}>
+      <SortButton
+        value="attack asc"
+        onClick={handleClick}
+        className={
+          inputs.sort && inputs.sort === "attack asc" ? "selected" : ""
+        }
+      >
         Attack: low---high
       </SortButton>
-      <SortButton value="attack desc" onClick={handleClick}>
+      <SortButton
+        value="attack desc"
+        onClick={handleClick}
+        className={
+          inputs.sort && inputs.sort === "attack desc" ? "selected" : ""
+        }
+      >
         Attack: high--low
       </SortButton>
       {/* <select onChange={handleSelect}>
@@ -81,6 +111,10 @@ const SortButton = styled.button`
   /* box-shadow: 0 0 4px 1px #2e2d2d inset; */
   /* box-shadow: 5px 5px 10px #1f1f1f, -5px -5px 10px #2f2f2f; */
   border-radius: 0.25rem;
+  &.selected {
+    color: var(--colors-black);
+    background-color: var(--colors-secondary);
+  }
   &:hover {
     cursor: pointer;
     box-shadow: none;

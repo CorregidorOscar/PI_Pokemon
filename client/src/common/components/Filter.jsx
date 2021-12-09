@@ -1,12 +1,13 @@
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import { filter, clearFilter } from "../redux/actions";
+import { filter, clearFilter, saveFilter, saveSort } from "../redux/actions";
 // import "./Filter.css";
 
 export default function Filter() {
   const types = useSelector((store) => store.types);
   const pokes = useSelector((store) => store.allPokemons);
 
+  const inputs = useSelector((store) => store.inputs);
   //   console.log("types", types);
 
   const dispatch = useDispatch();
@@ -15,10 +16,15 @@ export default function Filter() {
   //   dispatch(filter(e.target.value, pokes));
   // }
   function handleCheck(e) {
-    console.log(e.target.value);
     const { value, checked } = e.target;
-    if (checked) dispatch(filter(value, pokes));
-    else dispatch(clearFilter());
+    dispatch(saveSort(""));
+    if (checked) {
+      dispatch(saveFilter(value));
+      dispatch(filter(value, pokes));
+    } else {
+      dispatch(saveFilter(""));
+      dispatch(clearFilter());
+    }
     let list = document.getElementsByClassName("check");
     for (let input of list) {
       if (input.value !== value) input.checked = false;
@@ -30,12 +36,15 @@ export default function Filter() {
       <TypesContainer>
         {types.length ? (
           types.map((e) => (
-            <Label>
+            <Label key={e.id}>
               <Input
                 code={e.name}
-                onClick={handleCheck}
+                onChange={handleCheck}
                 value={e.name}
                 className="check"
+                checked={
+                  inputs.filter && inputs.filter === e.name ? true : false
+                }
               />
               <Img
                 code={e.name}
@@ -112,34 +121,6 @@ const Img = styled.img`
   }
 `;
 
-const LabelText = styled.img`
-  background-image: ${(props) =>
-    `url(${require(`../../assets/icons/${props.icon}.svg`).default})`};
-  ${Input}:checked + && {
-    background-color: blue;
-  }
-  /* ${(props) => {
-    switch (props.$mode) {
-      case "dark":
-        return `
-          background-color: black;
-          color: white;
-          ${Input}:checked + && {
-            color: blue;
-          }
-        `;
-      default:
-        return `
-          background-color: white;
-          color: black;
-          ${Input}:checked + && {
-            background-color: red;
-          }
-        `;
-    }
-  }} */
-`;
-
 const FilterContainer = styled.div`
   margin-top: 1.5rem;
   margin-bottom: 1.5rem;
@@ -174,49 +155,49 @@ const FilterLabel = styled.span`
   border: solid black 3px;
   border-radius: 0.25rem 0.25rem 0 0;
 `;
-const FilterButton = styled.button`
-  width: 100%;
-  height: 1.5rem;
-  color: var(--colors-secondary);
-  background-color: var(--colors-black);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 0.85rem;
-  border: solid black 2px;
-  transition: filter 250ms;
-  border-radius: 0.25rem;
-  &:hover {
-    cursor: pointer;
-    box-shadow: none;
-    transform: scale(1.02);
-    /* transition: 0.2s ease-in; */
-  }
-  &:active {
-    transform: translateY(1px);
-    transition: transform 34ms;
-  }
-  &:focus:not(:focus-visible) {
-    outline: none;
-  }
-`;
+// const FilterButton = styled.button`
+//   width: 100%;
+//   height: 1.5rem;
+//   color: var(--colors-secondary);
+//   background-color: var(--colors-black);
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   font-size: 0.85rem;
+//   border: solid black 2px;
+//   transition: filter 250ms;
+//   border-radius: 0.25rem;
+//   &:hover {
+//     cursor: pointer;
+//     box-shadow: none;
+//     transform: scale(1.02);
+//     /* transition: 0.2s ease-in; */
+//   }
+//   &:active {
+//     transform: translateY(1px);
+//     transition: transform 34ms;
+//   }
+//   &:focus:not(:focus-visible) {
+//     outline: none;
+//   }
+// `;
 
-const FilterCheck = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  > input {
-    /* display: none; */
-  }
-  > img {
-    height: 3rem;
-    /* width: 2.5rem; */
-    border: 5px solid transparent;
-  }
-  > input:checked > img {
-    border-color: blue;
-  }
-`;
+// const FilterCheck = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   > input {
+//     /* display: none; */
+//   }
+//   > img {
+//     height: 3rem;
+//     /* width: 2.5rem; */
+//     border: 5px solid transparent;
+//   }
+//   > input:checked > img {
+//     border-color: blue;
+//   }
+// `;
 // const Types = styled.div`
 //   display: flex;
 //   flex-direction: column;

@@ -6,8 +6,7 @@ class APIController {
     // let types = await DBController.getAllTypes();
     // types = types.map((e) => e.dataValues);
     const types = await getTypes();
-    console.log("types", types);
-    const arr1 = Array(36)
+    const arr1 = Array(24)
       .fill()
       .map((_, i) => axios.get(`${URL_POKEMON}/${i + 1}`));
     return Promise.all(arr1).then((res) => {

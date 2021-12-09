@@ -1,22 +1,27 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { getPokemonByName, clearSearch } from "../redux/actions";
+import { useDispatch, useSelector } from "react-redux";
+import { getPokemonByName, clearSearch, saveSearch } from "../redux/actions";
 import styled from "styled-components";
-import searchIcon from "../../assets/searchIcon.svg";
+
 export default function SearchBar() {
-  const [search, setSearch] = useState("");
+  const inputs = useSelector((store) => store.inputs);
+  const [search, setSearch] = useState(inputs.search ? inputs.search : "");
 
   const dispatch = useDispatch();
 
   function handleOnSearch(e) {
     e.preventDefault();
     // if (search === "") dispatch(clearFilter());
+    dispatch(saveSearch(search.trim().toLowerCase()));
     dispatch(getPokemonByName(search.trim().toLowerCase()));
   }
 
   function handleChange(e) {
     const value = e.target.value;
-    if (value === "") dispatch(clearSearch());
+    if (value === "") {
+      dispatch(clearSearch());
+      dispatch(saveSearch(""));
+    }
     setSearch(e.target.value);
   }
   return (
@@ -27,6 +32,7 @@ export default function SearchBar() {
         id="search-bar-input"
         onChange={handleChange}
         autoComplete="off"
+        value={search}
       />
       <SearchButton type="submit">
         <SearchSVG

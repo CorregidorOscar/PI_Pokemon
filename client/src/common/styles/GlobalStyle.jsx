@@ -1,8 +1,6 @@
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyle = createGlobalStyle`
-/* @import url("./fonts/flexo/stylesheet.css"); */
-
 :root {
   --colors-amaranthRed: #ce1131;
   --colors-snow: #fff3f0;

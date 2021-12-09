@@ -5,20 +5,16 @@ import { postPokemon, getAllPokemons, clearAll } from "../common/redux/actions";
 // import MenuSelector from "../common/components/MenuSelector";
 import styled, { keyframes } from "styled-components";
 import { BackgroundAnimated, StyledButton } from "../common/styles/Styles";
-import Pikachu from "../assets/Pikachu.gif";
-import Bulbasaur from "../assets/Bulbasaur.gif";
-import Charmander from "../assets/Charmander.gif";
-import Squirtle from "../assets/Squirtle.gif";
+
 const IMG_URL = "https://www.professorlotus.com/Sprites";
-const POKE_DEFAULT = `${IMG_URL}/pikachu.gif`;
 export default function CreatePokemon() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const types = useSelector((store) => store.types);
   const pokemons = useSelector((store) => store.allPokemons);
   const [image, setImage] = useState("");
-  const [loaded, setLoaded] = useState(false);
-
+  // const [loaded, setLoaded] = useState(false);
+  const [created, setCreated] = useState(false);
   const [errors, setErrors] = useState({
     name: "",
     attack: "",
@@ -126,7 +122,6 @@ export default function CreatePokemon() {
     sprite: "",
     types: [],
   });
-  console.log("create", input.types);
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -140,26 +135,9 @@ export default function CreatePokemon() {
     // setErrors(validate(value, name));
   }
 
-  // function handleCheck(e) {
-  //   const { checked, value } = e.target;
-  //   if (checked) {
-  //     setInput({
-  //       ...input,
-  //       types: [...input.types, value],
-  //     });
-  //   } else {
-  //     const newTypes = input.types.filter((type) => type !== value);
-  //     setInput({
-  //       ...input,
-  //       types: newTypes,
-  //     });
-  //   }
-  // }
-
   function handleSelect(e) {
     // setErrors(validate({ ...input, [name]: value }));
     const { value, name } = e.target;
-    console.log("se activo", input.types);
     e.target.value = "types";
     let newInput = [];
     if (value === "clear") {
@@ -191,10 +169,15 @@ export default function CreatePokemon() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    const newInput = { ...input, sprite: image };
+    const newInput = {
+      ...input,
+      sprite: image,
+      name: input.name.trim().toLowerCase(),
+    };
     dispatch(postPokemon(newInput));
-    console.log("enviadno");
-    alert("created");
+    setCreated(true);
+  }
+  function handleOk() {
     setInput({
       name: "",
       attack: "",
@@ -222,18 +205,12 @@ export default function CreatePokemon() {
   ];
 
   let disabled = useMemo(() => {
-    console.log("errors", errors);
     if (Object.keys(errors).find((e) => errors[e] !== "")) return true;
     if (Object.keys(input).find((e) => input[e].toString() === "")) return true;
     else return false;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [errors]);
-  // const [selected, setSelected] = useState([]);
 
-  // const data = [
-  //   { id: 1, nombre: "zapato" },
-  //   { id: 2, nombre: "tenis" },
-  // ];
   function handleFocus(e) {
     const { name, value } = e.target;
     // let isLoaded = !value ? true : false;
@@ -250,21 +227,10 @@ export default function CreatePokemon() {
       ...input,
       [name]: value,
     });
-    // let image = document.getElementById("form-image");
-    // let isLoaded = false;
-    // isLoaded = image.complete && image.naturalHeight !== 0;
-    // console.log("loadS", isLoaded);
-    // if (isLoaded) setLoaded(true);
-    // else {
-    //   // setImage(POKE_DEFAULT);
-    //   setLoaded(false);
-    // }
-    setLoaded(isLoaded);
     setErrors(validate({ ...input, [name]: value }, name, isLoaded));
   }
   function handleLoad(e) {
-    console.log("loadL", e.target.complete);
-    setLoaded(true);
+    // setLoaded(true);
     setErrors(validate(null, "sprite", true));
   }
   function createInput(name) {
@@ -296,74 +262,91 @@ export default function CreatePokemon() {
       </InputContainer>
     );
   }
-  return (
-    <CreateContainer>
-      <Link to="/pokemons">
-        <Back>Home</Back>
-      </Link>
-      <Info>
-        <ImageDiv>
+  if (created)
+    return (
+      <CreateContainer>
+        <Info className="created">
           <img
-            src={image}
-            alt="Pokemon Not Found"
-            id="form-image"
-            onLoad={handleLoad}
+            src="https://c.tenor.com/dABrbCe1n8MAAAAi/pikachu-oh-yeah.gif"
+            alt="created"
           />
-        </ImageDiv>
-        <InfoDiv onSubmit={handleSubmit}>
-          {nameInputs.map((name) =>
-            createInput(name, input, handleChange, errors, handleFocus)
-          )}
-          <TypesDiv>
-            <Select
-              onChange={handleSelect}
-              name="types"
-              className={
-                errors.types ? "error" : input.types.length ? "complete" : ""
-              }
-            >
-              <option disabled value="types">
-                Types
-              </option>
-              <option value="clear">Clear</option>
-              {types.map((type) => (
-                <option
-                  key={type.id}
-                  value={type.id}
-                  name={type.name}
-                  id={type.id}
-                >
-                  {/* {`${type.name[0].toUpperCase()}${type.name.slice(1)}`} */}
-                  {type.name}
-                </option>
-              ))}
-            </Select>
-            {errors.types && <p>{errors.types}</p>}
+          <h1>Pokemon created successfully</h1>
 
-            {/* <h3>{input.types.map((e) => e + " ,")}</h3> */}
+          <Create onClick={handleOk}>OK</Create>
+        </Info>
+      </CreateContainer>
+    );
+  else
+    return (
+      <CreateContainer>
+        <Link to="/pokemons">
+          <Back>Home</Back>
+        </Link>
+        <Info>
+          <ImageDiv glass="1">
+            <img
+              src={image}
+              alt="Search for a valid sprite of a pokemon"
+              id="form-image"
+              onLoad={handleLoad}
+            />
+          </ImageDiv>
+          <InfoDiv onSubmit={handleSubmit}>
+            {nameInputs.map((name) =>
+              createInput(name, input, handleChange, errors, handleFocus)
+            )}
+            <TypesDiv>
+              <Select
+                onChange={handleSelect}
+                name="types"
+                className={
+                  errors.types ? "error" : input.types.length ? "complete" : ""
+                }
+              >
+                <option disabled value="types">
+                  Types
+                </option>
+                <option value="clear">Clear</option>
+                {types.map((type) => (
+                  <option
+                    key={type.id}
+                    value={type.id}
+                    name={type.name}
+                    id={type.id}
+                  >
+                    {/* {`${type.name[0].toUpperCase()}${type.name.slice(1)}`} */}
+                    {type.name}
+                  </option>
+                ))}
+              </Select>
+              {errors.types && <p>{errors.types}</p>}
+
+              {/* <h3>{input.types.map((e) => e + " ,")}</h3> */}
+              <div>
+                {input.types.map((e) => {
+                  const typeName = types.find(
+                    (t) => t.id.toString() === e
+                  ).name;
+                  return (
+                    <Img
+                      key={e}
+                      src={require(`../assets/icons/${typeName}.svg`).default}
+                      alt={e}
+                      back={typeName}
+                    />
+                  );
+                })}
+              </div>
+            </TypesDiv>
             <div>
-              {input.types.map((e) => {
-                const typeName = types.find((t) => t.id.toString() === e).name;
-                return (
-                  <Img
-                    key={e}
-                    src={require(`../assets/icons/${typeName}.svg`).default}
-                    alt={e}
-                    back={typeName}
-                  />
-                );
-              })}
+              <Create disabled={disabled} type="submit">
+                Create
+              </Create>
             </div>
-          </TypesDiv>
-          <div>
-            <Create disabled={disabled} type="submit">
-              Create
-            </Create>
-          </div>
-        </InfoDiv>
-      </Info>
-    </CreateContainer>
-  );
+          </InfoDiv>
+        </Info>
+      </CreateContainer>
+    );
 }
 
 const CreateContainer = styled.div`
@@ -385,6 +368,12 @@ const Info = styled.div`
   div {
     display: flex;
     justify-content: center;
+    align-items: center;
+  }
+  &.created {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
     align-items: center;
   }
 `;
@@ -497,7 +486,7 @@ const InfoDiv = styled.form`
   padding: 2rem;
   border-radius: 0 2rem 2rem 0;
   column-gap: 1rem;
-  background-color: var(--colors-secondary);
+  background-color: #fff3f090;
   div {
     width: 100%;
   }
@@ -574,6 +563,7 @@ const Select = styled.select`
     outline: none;
   }
   option {
+    text-transform: capitalize;
     font-weight: normal;
   }
 

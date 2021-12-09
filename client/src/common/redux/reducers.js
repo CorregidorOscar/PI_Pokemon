@@ -10,6 +10,9 @@ import {
   GET_POKEMON_DETAIL,
   POST_POKEMON,
   CLEAR_ALL,
+  SAVE_FILTER,
+  SAVE_SEARCH,
+  SAVE_SORT,
 } from "./actions";
 
 const initialState = {
@@ -19,6 +22,11 @@ const initialState = {
   types: [],
   pokemon: {},
   search: false,
+  inputs: {
+    search: "",
+    sort: "",
+    filter: false,
+  },
 };
 
 const rootReducer = (state = initialState, { type, payload }) => {
@@ -98,6 +106,38 @@ const rootReducer = (state = initialState, { type, payload }) => {
         filter: false,
         pokemon: {},
         search: false,
+        inputs: {
+          search: "",
+          sort: "",
+          filter: "",
+        },
+      };
+    }
+    case SAVE_SEARCH: {
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          search: payload,
+        },
+      };
+    }
+    case SAVE_FILTER: {
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          filter: payload,
+        },
+      };
+    }
+    case SAVE_SORT: {
+      return {
+        ...state,
+        inputs: {
+          ...state.inputs,
+          sort: payload,
+        },
       };
     }
     default:

@@ -1,6 +1,8 @@
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 
 export default function Paged({ amountPerPage, total, paged, currentPage }) {
+  const inputs = useSelector((store) => store.inputs);
   const pageNumbers = [];
   //   console.log("paged", total);
   for (let i = 1; i <= Math.ceil(total / amountPerPage); i++) {
@@ -12,6 +14,7 @@ export default function Paged({ amountPerPage, total, paged, currentPage }) {
       {/* <nav>
       <ul> */}
       {pageNumbers &&
+        !inputs.search &&
         pageNumbers.map((num) => (
           <PagedButton
             key={num}

@@ -79,7 +79,9 @@ const ContainerCards = styled.div`
   display: grid;
   /* background-color: var(--colors-secondary); */
   grid-template-columns: repeat(4, 1fr);
+  /* grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); */
   grid-template-rows: repeat(3, 1fr);
+  /* grid-template-rows: repeat(auto-fill, minmax(220px, 1fr)); */
   column-gap: 1rem;
   row-gap: 1rem;
   padding: 1rem;
@@ -88,7 +90,7 @@ const ContainerCards = styled.div`
 
   /* padding: 10px 80px 50px; */
   /* grid-gap: 30px 30px; */
-  justify-content: center;
+  /* justify-content: center; */
   &.change {
     display: flex;
     justify-content: center;
